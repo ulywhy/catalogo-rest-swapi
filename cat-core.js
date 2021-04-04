@@ -13,21 +13,19 @@ export class CatCore extends LitElement {
     static get styles() {
         return css `
       :host {
-        display: flex;
-        flex-direction: column; 
         height: 100%;
         width: 100%;
-        padding: 8px;
         margin: 0;
+        padding:0;
       }
 
       .hidden{
         visibility: hidden;
-        z-index: 0;
+        position: absolute;
+        top: 0;
       }
       .visible{
         visibility: visible;
-        z-index: 1;
         position: absolute;
         top: 0;
       }
@@ -43,7 +41,7 @@ export class CatCore extends LitElement {
     }
 
     constructor() {
-        super();
+        super()
         this.catDriver = new RestDriver()
     }
 

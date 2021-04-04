@@ -19,6 +19,18 @@ export class RestDriver {
                 console.log(json)
                 return json
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                return fetch(this.endpoint + route + (params != '' ? '?' + params : ''), {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: { 'Access-Control-Allow-Origin': '*' }
+                    })
+                    .then(response => response.json())
+                    .then(json => {
+                        console.log(json)
+                        return json
+                    })
+                    .catch(err => console.log(err))
+            })
     }
 }
