@@ -20,7 +20,7 @@ import replace from '@rollup/plugin-replace';
 export default {
     input: 'cat-core.js',
     output: {
-        file: 'cat-core.bundled.js',
+        file: 'index.js',
         format: 'esm',
     },
     onwarn(warning) {
