@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element'
+import { until } from 'lit-html/directives/until.js';
 import { RestDriver } from './rest-driver.js'
 import { CatProductItem } from './cat-product-item.js'
 /**
@@ -24,7 +25,11 @@ export class CatCategory extends LitElement {
                 type: Object,
             },
             restDriver: { type: Object },
-            products: { type: Object }
+            products: { type: Object },
+            next: { type: String },
+            previous: { type: String },
+            count: { type: Number },
+            products: { type: Array }
         };
     }
 
@@ -34,13 +39,15 @@ export class CatCategory extends LitElement {
     }
 
     setRestProducts() {
-        console.log("setRestProducts")
-        this.restDriver.doGet('/' + this.category.name).then(
-            products => {
-                this.products = Object.entries(products)
-                console.log(this.products)
-            }
-        )
+        return this.restDriver.doGet('/' + this.category.name)
+            .then(response => this.parseProducts(response))
+    }
+
+    parseProducts(response) {
+        this.next = response.next
+        this.previous = response.previous
+        this.count = response.count
+        return response.results
     }
 
     displayCategory(event) {
@@ -56,14 +63,18 @@ export class CatCategory extends LitElement {
     }
 
     render() {
-            this.setRestProducts()
             return html `
-        <h1>${this.category.name}</h1>
-        <ul class="category-list">
-         ${this.products.map( cat =>
-            html`<cat-product-item name="${cat[0]}" link="${cat[1]}"></cat-product-item>`)}
-      </ul>
-    `;
+            <h1>${this.category.name}</h1>
+            <ul class="category-list">
+            ${until(this.setRestProducts()
+                .then(products =>
+                    products.map( prod =>
+                        html`<cat-product-item .product="${prod}"></cat-product-item>`)
+                ),
+                html`<span>Loading...</span>`)
+                }
+            </ul>
+        `;
     }
 }
 

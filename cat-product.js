@@ -23,15 +23,7 @@ export class CatProduct extends LitElement {
 
     static get properties() {
         return {
-            /**
-             * The name to say "Hello" to.
-             */
-            name: { type: String },
-
-            /**
-             * The number of times the button has been clicked.
-             */
-            count: { type: Number },
+            product: { type: Object },
             catDriver: { type: Object }
         };
     }
@@ -39,16 +31,11 @@ export class CatProduct extends LitElement {
     constructor() {
         super();
         this.catDriver = new RestDriver()
-        this.name = 'World'
-        this.count = 0
     }
 
     render() {
         return html `
-      <h1>Hello, ${this.name}!</h1>
-      <button @click=${this._onClick} part="button">
-        Click Count: ${this.count}
-      </button>
+      <h1> ${this.product.name}</h1>
       <slot></slot>
     `;
     }

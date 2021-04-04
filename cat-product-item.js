@@ -20,8 +20,7 @@ export class CatProductItem extends LitElement {
 
     static get properties() {
         return {
-            name: { type: String },
-            link: { type: String },
+            product: { type: Object },
             catDriver: { type: Object }
         };
     }
@@ -31,12 +30,11 @@ export class CatProductItem extends LitElement {
         this.catDriver = new RestDriver()
     }
 
-    displayCategory(event) {
+    displayProduct(event) {
         console.log("clicked")
-        let myEvent = new CustomEvent('display-category', {
+        let myEvent = new CustomEvent('display-product', {
             detail: {
-                name: this.name,
-                link: this.link
+                product: this.product
             },
             bubbles: true,
             composed: true
@@ -45,14 +43,12 @@ export class CatProductItem extends LitElement {
     }
 
     render() {
-        return html `product test
-      <h1 @click="${this.displayCategory}">${this.name}</h1>
+        return html `
+        <h1 @click="${this.displayProduct}">
+            ${this.product.hasOwnProperty("name") ? this.product.name : this.product.title}
+        </h1>
       <slot></slot>
     `;
-    }
-
-    _onClick() {
-        this.count++;
     }
 }
 

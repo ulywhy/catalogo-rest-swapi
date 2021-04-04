@@ -14,7 +14,7 @@ export class CatCore extends LitElement {
         return css `
       :host {
         display: flex;
-        flex-direction: column;
+        flex-direction: column; 
         height: 100%;
         width: 100%;
         padding: 8px;
@@ -28,12 +28,15 @@ export class CatCore extends LitElement {
       .visible{
         visibility: visible;
         z-index: 1;
+        position: absolute;
+        top: 0;
       }
     `;
     }
 
     static get properties() {
         return {
+            product: { type: Object },
             category: { type: Object },
             catDriver: { type: Object }
         };
@@ -52,6 +55,14 @@ export class CatCore extends LitElement {
         this.hideCategories()
     }
 
+    showProduct(event) {
+        console.log(event)
+        this.product = event.detail.product
+        this.shadowRoot.getElementById("product-element").classList.remove("hidden")
+        this.shadowRoot.getElementById("product-element").classList.add("visible")
+        this.hideCategory()
+    }
+
     hideCategory() {
         this.shadowRoot.getElementById("category-element").classList.add("hidden")
         this.shadowRoot.getElementById("category-element").classList.remove("visible")
@@ -64,17 +75,25 @@ export class CatCore extends LitElement {
 
     render() {
         return html `
-      <cat-categories id="categories-element" @display-category="${this.showCategory}"></cat-categories>
-      <cat-category id="category-element" class="hidden" .category="${this.category}"></cat-category>
-      <!--cat-product></cat-product-->
+      <cat-categories id="categories-element" 
+                      @display-category="${this.showCategory}">
+      </cat-categories>
+      
+      <cat-category id="category-element"
+                    class="hidden"
+                    .category="${this.category}"
+                    @display-product="${this.showProduct}">
+      </cat-category>
+      
+      <cat-product  id="product-element"
+                    class="hidden"
+                    .product="${this.product}">
+      </cat-product>
       
       <slot></slot>
     `;
     }
 
-    _onClick() {
-        this.count++;
-    }
 }
 
 window.customElements.define('cat-core', CatCore);

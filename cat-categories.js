@@ -58,9 +58,6 @@ export class CatCategories extends LitElement {
     `;
     }
 
-    _onClick() {
-        this.count++;
-    }
 }
 
 window.customElements.define('cat-categories', CatCategories);
