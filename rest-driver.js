@@ -7,17 +7,12 @@ export class RestDriver {
     constructor(endpoint = 'https://swapi.dev/api') {
         //endpoint de la base de datos del catalogo
         this.endpoint = endpoint
-            //headers para usar como defaults en los requests
-        this.defaultHeader = { 'Content-Type': 'application/json' }
     }
 
-    doGet(route, params = '', headers = this.defaultHeader) {
-        console.log(route)
-        route = 'https://swapi.dev/api/starships'
+    doGet(route, params = '') {
         return fetch(this.endpoint + route + (params != '' ? '?' + params : ''), {
                 method: 'GET',
-                mode: 'cors',
-                headers: headers
+                mode: 'cors'
             })
             .then(response => response.json())
             .then(json => {
