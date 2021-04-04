@@ -10,7 +10,10 @@ export class RestDriver {
     }
 
     doGet(route, params = '') {
-        return fetch(this.endpoint + route + (params != '' ? '?' + params : ''), {
+        let url = route.includes('http') ? route : this.endpoint + route
+        url = this.forceHttps(url.toLowerCase())
+        console.log('fetching ' + url)
+        return fetch(url + (params != '' ? '?' + params : ''), {
                 method: 'GET',
                 mode: 'cors'
             })
@@ -32,5 +35,13 @@ export class RestDriver {
                     })
                     .catch(err => console.log(err))
             })
+    }
+
+    forceHttps(url) {
+        if (url.includes('https')) {
+            return url
+        } else {
+            return url.replace('http', 'https')
+        }
     }
 }

@@ -39,7 +39,7 @@ export class CatCategory extends LitElement {
     }
 
     setRestProducts() {
-        return this.restDriver.doGet('/' + this.category.name)
+        return this.restDriver.doGet(this.category.link)
             .then(response => this.parseProducts(response))
     }
 
