@@ -34,14 +34,21 @@ export class CatProduct extends LitElement {
     }
 
     render() {
-        return html `
-      <h1> ${this.product.name}</h1>
+            return html `
+        <h1>
+            ${this.product.hasOwnProperty("name") ? this.product.name : this.product.title}  
+        </h1>
+        <div style="display:table;">
+        ${Object.keys(this.product).map(key => 
+            html`
+                <div style="display: table-row"> 
+                    <span style="display:table-cell">${key}</span> <span style="display:table-cell">${this.product[key]}</span>
+                </div>
+            `
+        )}
+        </div>
       <slot></slot>
     `;
-    }
-
-    _onClick() {
-        this.count++;
     }
 }
 
