@@ -77,7 +77,7 @@ export class CatCore extends LitElement {
 
     render() {
         return html `
-        <div class="row">
+        <div class="row d-flex justify-content-between">
           <cat-categories id="categories-element" class="col"
                           @display-category="${this.showCategory}">
           </cat-categories>
@@ -87,11 +87,11 @@ export class CatCore extends LitElement {
                         @display-product="${this.showProduct}">
           </cat-category>
         </div>
-        <div class="row">
-        <cat-product  id="product-element"
-                      .product="${this.product}">
-        </cat-product>
-      </div>
+        <div class="row d-flex justify-content-center">
+          <cat-product  id="product-element"
+                        .product="${this.product}">
+          </cat-product>
+        </div>
     `;
     }
 

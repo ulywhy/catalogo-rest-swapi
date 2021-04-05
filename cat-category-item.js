@@ -44,8 +44,8 @@ export class CatCategoryItem extends LitElement {
 
     render() {
         return html `
-        <button type="button" class="list-group-item list-group-item-action" @click="${this.displayCategory}">
-            <div class="d-flex w-100 justify-content-between">
+        <button type="button" class="list-group-item list-group-item-action" @click="${this.displayCategory}" style="background-color: lightBlue;">
+            <div class="d-flex w-100 justify-content-between" >
               ${this.name}
             </div>
     </button> 

@@ -7,15 +7,14 @@ import { RestDriver } from './rest-driver.js'
  * @csspart button - The button
  */
 export class CatProduct extends LitElement {
+    createRenderRoot() {
+        return this;
+    }
+
     static get styles() {
         return css `
       :host {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
-        padding: 8px;
-        margin: 0;
+        
         background-color: teal;
       }
     `;
@@ -35,17 +34,23 @@ export class CatProduct extends LitElement {
 
     render() {
             return html `
-        <h1>
-            ${this.product.hasOwnProperty("name") ? this.product.name : this.product.title}  
-        </h1>
-        <div style="display:table;">
-        ${Object.keys(this.product).map(key => 
-            html`
-                <div style="display: table-row"> 
-                    <span style="display:table-cell">${key}</span> <span style="display:table-cell">${this.product[key]}</span>
-                </div>
-            `
-        )}
+        <div class="card" style="background-color: teal;  padding: 1em;">
+            <div class="card-body">
+                <h5 class="card-title">
+                    ${this.product.hasOwnProperty("name") ? this.product.name : this.product.title}
+                </h5>
+                <div class="container d-flex justify-content-center">
+                <ul class="list-group" style="width: 90%;">
+                    ${Object.keys(this.product).map(key => 
+                        html`
+                        <div class="list-group-item list-group-item-action">
+                            <div style=" width: 22%;">${key}</div> <div style="word-wrap: break-word; max-width: 77%;">${this.product[key]}</div>
+                        </div>
+                        `
+                    )}
+                    </tbody>
+                </table>
+            </div>
         </div>
       <slot></slot>
     `;

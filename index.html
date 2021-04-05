@@ -12,19 +12,40 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <style>
         html,
-        body,
-        #core {
-            display: flex;
+        body {
+            display: block;
             height: 100%;
             width: 100%;
-            padding: 0;
             margin: 0;
+            padding: 0;
+        }
+        
+        #core {
+            display: block;
+            height: 98vh;
+            width: 98vw;
+            max-width: 98vw;
+        }
+        
+        .products-list .product-item {
+            background-color: palegreen;
+        }
+        
+        .card,
+        .card-body {
+            max-width: 98vw;
+        }
+        
+        #categories-element,
+        #category-element,
+        #product-element {
+            margin: 1vw 1vh 1vw 1vh;
         }
     </style>
 </head>
 
 <body>
-    <cat-core id="core"></cat-core>
+    <cat-core id="core" class="container"></cat-core>
 </body>
 
 </html>
