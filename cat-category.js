@@ -9,13 +9,12 @@ import { CatProductItem } from './cat-product-item.js'
  * @csspart button - The button
  */
 export class CatCategory extends LitElement {
+    createRenderRoot() {
+        return this;
+    }
     static get styles() {
         return css `
-      :host {
-        display: flex;
-        margin: 0;
-        background-color: palegreen;
-      }
+        
     `;
     }
 
@@ -38,8 +37,9 @@ export class CatCategory extends LitElement {
         this.restDriver = new RestDriver()
     }
 
-    setRestProducts() {
-        return this.restDriver.doGet(this.category.link)
+    setRestProducts(categoryUrl) {
+        console.log(categoryUrl)
+        this.restDriver.doGet(categoryUrl)
             .then(response => this.parseProducts(response))
     }
 
@@ -47,35 +47,48 @@ export class CatCategory extends LitElement {
         this.next = response.next
         this.previous = response.previous
         this.count = response.count
-        return response.results
+        this.products = response.results
+        console.log(this.products)
     }
 
-    displayCategory(event) {
-        let myEvent = new CustomEvent('display-category', {
-            detail: {
-                name: this.name,
-                link: this.link
-            },
-            bubbles: true,
-            composed: true
-        });
-        this.dispatchEvent(myEvent);
+    getNext() {
+        return this.restDriver.doGet(this.next)
+            .then(response => {
+                this.requestUpdate()
+                return this.parseProducts(response)
+            })
     }
 
-    render() {
-            return html `
-            <h1>${this.category.name}</h1>
-            <ul class="category-list">
-            ${until(this.setRestProducts()
-                .then(products =>
-                    products.map( prod =>
-                        html`<cat-product-item .product="${prod}"></cat-product-item>`)
-                ),
-                html`<span>Loading...</span>`)
-                }
+    getPrev() {
+        return this.restDriver.doGet(this.previous)
+            .then(response => {
+                this.requestUpdate()
+                return this.parseProducts(response)
+            })
+    }
+    renderList() {
+            console.log(this.products)
+            if (this.products != undefined) {
+                return html `${
+                this.products.map(prod =>
+                        html ` <cat-product-item .product="${prod}"></cat-product-item>`)
+                }`
+            }else{
+                return ''
+            }
+    }
+
+render() {
+    return html `
+            <ul class="list-group-horizontal products-list">
+                ${this.renderList()}
             </ul>
+            <div class="row d-flex justify-content-around">
+                <button @click="${this.getNext}" ?disabled="${this.previous == undefined}">prev</button>
+                <button @click="${this.getNext}" ?disabled="${this.next == undefined}">next</button>
+            </div>
         `;
-    }
+}
 }
 
 window.customElements.define('cat-category', CatCategory);

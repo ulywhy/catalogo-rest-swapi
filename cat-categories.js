@@ -8,20 +8,15 @@ import { RestDriver } from './rest-driver.js'
  * @csspart button - The button
  */
 export class CatCategories extends LitElement {
+    createRenderRoot() {
+        return this;
+    }
+
     static get styles() {
         return css `
       :host {
-        display: flex;
-        flex-direction: column;
-        height: 50%;
-        width: 100%;
         margin: 0;
         background-color: teal;
-      }
-
-      .category-list{
-        padding: 0;
-        margin:0;
       }
     `;
     }
@@ -50,10 +45,10 @@ export class CatCategories extends LitElement {
 
     render() {
             return html `
-      <ul class="category-list">
+      <div class="list-group">
          ${this.categories.map( cat =>
-            html`<cat-category-item name="${cat[0]}" link="${cat[1]}"></cat-category-item>`)}
-      </ul>
+            html`<cat-category-item class="" name="${cat[0]}" link="${cat[1]}"></cat-category-item>`)}
+      </div>
       <slot></slot>
     `;
     }

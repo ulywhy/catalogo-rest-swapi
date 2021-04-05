@@ -13,7 +13,7 @@ export class RestDriver {
         let url = route.includes('http') ? route : this.endpoint + route
         url = this.forceHttps(url.toLowerCase())
         console.log('fetching ' + url)
-        return fetch(url + (params != '' ? '?' + params : ''), {
+        return fetch(url + (url.includes('?') ? '' : (params != '' ? '?' + params : '')), {
                 method: 'GET',
                 mode: 'cors'
             })

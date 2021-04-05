@@ -7,14 +7,12 @@ import { RestDriver } from './rest-driver.js'
  * @csspart button - The button
  */
 export class CatProductItem extends LitElement {
+    createRenderRoot() {
+        return this;
+    }
+
     static get styles() {
         return css `
-      :host {
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-        background-color: teal;
-      }
     `;
     }
 
@@ -44,10 +42,9 @@ export class CatProductItem extends LitElement {
 
     render() {
         return html `
-        <h1 @click="${this.displayProduct}">
-            ${this.product.hasOwnProperty("name") ? this.product.name : this.product.title}
-        </h1>
-      <slot></slot>
+            <button type="button" class="list-group-item list-group-item-action product-item" @click="${this.displayProduct}">
+                ${this.product.hasOwnProperty("name") ? this.product.name : this.product.title}
+            </button>
     `;
     }
 }

@@ -7,14 +7,12 @@ import { RestDriver } from './rest-driver.js'
  * @csspart button - The button
  */
 export class CatCategoryItem extends LitElement {
+    createRenderRoot() {
+        return this;
+    }
+
     static get styles() {
         return css `
-      :host {
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-        background-color: teal;
-      }
     `;
     }
 
@@ -46,14 +44,15 @@ export class CatCategoryItem extends LitElement {
 
     render() {
         return html `
-      <h1 @click="${this.displayCategory}">${this.name}</h1>
+        <button type="button" class="list-group-item list-group-item-action" @click="${this.displayCategory}">
+            <div class="d-flex w-100 justify-content-between">
+              ${this.name}
+            </div>
+    </button> 
       <slot></slot>
     `;
     }
 
-    _onClick() {
-        this.count++;
-    }
 }
 
 window.customElements.define('cat-category-item', CatCategoryItem);

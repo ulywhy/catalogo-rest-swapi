@@ -10,9 +10,14 @@ import { RestDriver } from './rest-driver.js'
  * @csspart button - The button
  */
 export class CatCore extends LitElement {
+    createRenderRoot() {
+        return this;
+    }
+
     static get styles() {
         return css `
       :host {
+        display: block;
         height: 100%;
         width: 100%;
         margin: 0;
@@ -47,48 +52,46 @@ export class CatCore extends LitElement {
 
     showCategory(event) {
         console.log(event)
-        this.category = event.detail
-        this.shadowRoot.getElementById("category-element").classList.remove("hidden")
-        this.shadowRoot.getElementById("category-element").classList.add("visible")
-        this.hideCategories()
+        document.getElementById("category-element").setRestProducts(event.detail.link)
+            //document.getElementById("category-element").classList.add("visible")
+            //this.hideCategories()
     }
 
     showProduct(event) {
         console.log(event)
         this.product = event.detail.product
-        this.shadowRoot.getElementById("product-element").classList.remove("hidden")
-        this.shadowRoot.getElementById("product-element").classList.add("visible")
+        document.getElementById("product-element").classList.remove("hidden")
+        document.getElementById("product-element").classList.add("visible")
         this.hideCategory()
     }
 
     hideCategory() {
-        this.shadowRoot.getElementById("category-element").classList.add("hidden")
-        this.shadowRoot.getElementById("category-element").classList.remove("visible")
+        document.getElementById("category-element").classList.add("hidden")
+        document.getElementById("category-element").classList.remove("visible")
     }
 
     hideCategories() {
-        this.shadowRoot.getElementById("categories-element").classList.add("hidden")
-        this.shadowRoot.getElementById("categories-element").classList.remove("visible")
+        document.getElementById("categories-element").classList.add("hidden")
+        document.getElementById("categories-element").classList.remove("visible")
     }
 
     render() {
         return html `
-      <cat-categories id="categories-element" 
-                      @display-category="${this.showCategory}">
-      </cat-categories>
-      
-      <cat-category id="category-element"
-                    class="hidden"
-                    .category="${this.category}"
-                    @display-product="${this.showProduct}">
-      </cat-category>
-      
-      <cat-product  id="product-element"
-                    class="hidden"
-                    .product="${this.product}">
-      </cat-product>
-      
-      <slot></slot>
+        <div class="row">
+          <cat-categories id="categories-element" class="col"
+                          @display-category="${this.showCategory}">
+          </cat-categories>
+          
+          <cat-category id="category-element" class="col"
+                        .category="${this.category}"
+                        @display-product="${this.showProduct}">
+          </cat-category>
+        </div>
+        <div class="row">
+        <cat-product  id="product-element"
+                      .product="${this.product}">
+        </cat-product>
+      </div>
     `;
     }
 
